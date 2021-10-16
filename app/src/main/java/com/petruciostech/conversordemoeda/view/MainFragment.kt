@@ -34,9 +34,11 @@ class MainFragment : Fragment() {
     private fun initPriceDollar(){
         viewModel.usaPrice.observe(viewLifecycleOwner, {
             val dolar = it.quotes.toList()
-            bind.textDolarpriceView.text = dolar.find { pred -> pred.first == "USDBRL" }
-                ?.second.toString()
+            bind.textDolarpriceView.text = "R$ " + dolar.find { pred -> pred.first == "USDBRL" }
+                ?.second?.format(2)
         })
     }
 
+
+    fun Float.format(digits:Int) = "%.${digits}f".format(this)
 }
