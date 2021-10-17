@@ -10,9 +10,9 @@ import com.petruciostech.conversordemoeda.model.Coin
 import com.petruciostech.conversordemoeda.usecase.UseCaseQuoteUSA
 import com.petruciostech.conversordemoeda.util.retrofit.RetrofitCurrencyTask
 import com.petruciostech.conversordemoeda.util.tools.TAG_ERROR_THREAD_PRICE
-import com.petruciostech.conversordemoeda.util.tools.TAG_SUCESS_THREAD_PRICE
+import com.petruciostech.conversordemoeda.util.tools.TAG_SUCCESS_THREAD_PRICE
 import com.petruciostech.conversordemoeda.util.tools.TEXT_ERROR_THREAD_PRICE
-import com.petruciostech.conversordemoeda.util.tools.TEXT_SUCESS_THREAD_PRICE
+import com.petruciostech.conversordemoeda.util.tools.TEXT_SUCCESS_THREAD_PRICE
 
 class MainFragmentViewModel:ViewModel() {
     private val task = RetrofitCurrencyTask()
@@ -27,7 +27,7 @@ class MainFragmentViewModel:ViewModel() {
         Thread {
             try {
                 _usaPrice.postValue(useCase.invoke())
-                Log.i(TAG_SUCESS_THREAD_PRICE, TEXT_SUCESS_THREAD_PRICE)
+                Log.i(TAG_SUCCESS_THREAD_PRICE, TEXT_SUCCESS_THREAD_PRICE)
             }catch (ex:Exception){
                 Log.e(TAG_ERROR_THREAD_PRICE, TEXT_ERROR_THREAD_PRICE, ex)
             }

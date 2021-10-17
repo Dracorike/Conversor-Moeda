@@ -30,7 +30,6 @@ class MainFragment : Fragment() {
     private fun initFragment(){
         viewModel.getPriceUsa()
     }
-
     private fun initPriceDollar(){
         viewModel.usaPrice.observe(viewLifecycleOwner, {
             val dolar = it.quotes.toList()
@@ -38,7 +37,5 @@ class MainFragment : Fragment() {
                 ?.second?.format(2)
         })
     }
-
-
     fun Float.format(digits:Int) = "%.${digits}f".format(this)
 }

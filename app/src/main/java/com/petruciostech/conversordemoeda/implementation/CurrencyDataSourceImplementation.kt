@@ -5,7 +5,7 @@ import com.petruciostech.conversordemoeda.data.CurrencyDataSource
 import com.petruciostech.conversordemoeda.model.Coin
 import com.petruciostech.conversordemoeda.util.retrofit.RetrofitCurrencyTask
 import com.petruciostech.conversordemoeda.util.tools.*
-import com.petruciostech.conversordemoeda.R
+import com.petruciostech.conversordemoeda.model.CoinToList
 
 
 class CurrencyDataSourceImplementation(private val task:RetrofitCurrencyTask):
@@ -17,7 +17,23 @@ CurrencyDataSource{
             if (response.isSuccessful){
                 val coin = response.body()
                 coinReturn = coin
-                Log.i(TAG_SUCESS_RESPONSE, TEXT_SUCESS_RESPONSE)
+                Log.i(TAG_SUCCESS_RESPONSE, TEXT_SUCCESS_RESPONSE)
+            }else{
+                Log.e(TAG_ERROR_RESPONSE, TEXT_ERROR_RESPONSE)
+            }
+        }catch (ex:Exception){
+            Log.e(TAG_ERROR_RESPONSE, TEXT_ERROR_RESPONSE, ex)
+        }
+        return coinReturn!!
+    }
+
+    override fun getListCurrencys(): CoinToList {
+        var coinReturn:CoinToList? = null
+        try {
+            val response = task.task().getListCurrencys().execute()
+            if(response.isSuccessful){
+                coinReturn = response.body()
+                Log.i(TAG_SUCCESS_RESPONSE, TEXT_SUCCESS_RESPONSE)
             }else{
                 Log.e(TAG_ERROR_RESPONSE, TEXT_ERROR_RESPONSE)
             }
