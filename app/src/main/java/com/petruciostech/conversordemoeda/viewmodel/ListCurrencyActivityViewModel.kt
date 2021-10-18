@@ -1,6 +1,9 @@
 package com.petruciostech.conversordemoeda.viewmodel
 
+import android.app.Application
+import android.content.Context
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,12 +12,10 @@ import com.petruciostech.conversordemoeda.implementation.CurrencyDataSourceImple
 import com.petruciostech.conversordemoeda.model.CoinToList
 import com.petruciostech.conversordemoeda.usecase.UseCaseListCurrency
 import com.petruciostech.conversordemoeda.util.retrofit.RetrofitCurrencyTask
-import com.petruciostech.conversordemoeda.util.tools.TAG_ERROR_THREAD_LIST
-import com.petruciostech.conversordemoeda.util.tools.TAG_SUCCESS_THREAD_LIST
-import com.petruciostech.conversordemoeda.util.tools.TEXT_ERROR_THREAD_LIST
-import com.petruciostech.conversordemoeda.util.tools.TEXT_SUCCESS_THREAD_LIST
+import com.petruciostech.conversordemoeda.util.tools.*
+import kotlin.coroutines.coroutineContext
 
-class ListCurrencyActivityViewModel:ViewModel() {
+class ListCurrencyActivityViewModel(application: Application):AndroidViewModel(application) {
     private val task = RetrofitCurrencyTask()
     private val dataSource = CurrencyDataSourceImplementation(task)
     private val repository = Repository(dataSource)
@@ -33,4 +34,5 @@ class ListCurrencyActivityViewModel:ViewModel() {
             }
         }.start()
     }
+
 }

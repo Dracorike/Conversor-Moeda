@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.petruciostech.conversordemoeda.databinding.ActivityListCurrencyBinding
 import com.petruciostech.conversordemoeda.model.CoinToList
 import com.petruciostech.conversordemoeda.model.CoinToRecyclerView
+import com.petruciostech.conversordemoeda.util.tools.INTENT_EXTRA_NUMBER_BUTTON
 import com.petruciostech.conversordemoeda.view.recyclerview.RecyclerCurrency
 import com.petruciostech.conversordemoeda.viewmodel.ListCurrencyActivityViewModel
 
@@ -25,17 +26,17 @@ class ListCurrencyActivity : AppCompatActivity() {
         viewModel.getListOfCurrencys()
         initList()
     }
-
     private fun initList(){
-        viewModel.listCurrency.observe(this, {
+        viewModel.listCurrency.observe(this, {it ->
             listCurrency = it
+            val extra:Int = intent.extras?.get(INTENT_EXTRA_NUMBER_BUTTON) as Int
             val coins = listCurrency?.currencies?.toList()
             val coinList = arrayListOf<CoinToRecyclerView>()
             coins?.forEach {
                 coinList.add(CoinToRecyclerView(it.first, it.second))
             }
             bind.recyclerCurrencylist.apply {
-                adapter = RecyclerCurrency(coinList)
+                adapter = RecyclerCurrency(coinList, application, extra)
                 layoutManager = LinearLayoutManager(context)
             }
         })
