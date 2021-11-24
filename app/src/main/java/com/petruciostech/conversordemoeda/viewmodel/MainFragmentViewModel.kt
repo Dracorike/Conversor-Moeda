@@ -34,4 +34,9 @@ class MainFragmentViewModel:ViewModel() {
         }.start()
     }
 
+    private fun Float.format(digits:Int) = "%.${digits}f".format(this)
+
+    fun dolarPricePrint(dolar: List<Pair<String, Float>>):String =
+        "RS ${dolar.find { pred -> pred.first ==  "USDBRL"}?.second?.format(2)}"
+
 }

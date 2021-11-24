@@ -1,13 +1,11 @@
 package com.petruciostech.conversordemoeda.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.petruciostech.conversordemoeda.R
 import com.petruciostech.conversordemoeda.databinding.FragmentMainBinding
 import com.petruciostech.conversordemoeda.viewmodel.MainFragmentViewModel
 
@@ -33,9 +31,7 @@ class MainFragment : Fragment() {
     private fun initPriceDollar(){
         viewModel.usaPrice.observe(viewLifecycleOwner, {
             val dolar = it.quotes.toList()
-            bind.textDolarpriceView.text = "R$ " + dolar.find { pred -> pred.first == "USDBRL" }
-                ?.second?.format(2)
+            bind.textDolarpriceView.text = viewModel.dolarPricePrint(dolar)
         })
     }
-    fun Float.format(digits:Int) = "%.${digits}f".format(this)
 }

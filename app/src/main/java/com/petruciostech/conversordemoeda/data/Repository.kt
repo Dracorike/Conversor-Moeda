@@ -1,6 +1,5 @@
 package com.petruciostech.conversordemoeda.data
 
-import android.util.Log
 import com.petruciostech.conversordemoeda.implementation.CurrencyDataSourceImplementation
 import com.petruciostech.conversordemoeda.model.Coin
 import com.petruciostech.conversordemoeda.model.CoinToList
