@@ -1,45 +1,61 @@
 package com.petruciostech.conversordemoeda.view
 
-import android.app.Application
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.petruciostech.conversordemoeda.databinding.FragmentConvertBinding
-import com.petruciostech.conversordemoeda.util.tools.INTENT_EXTRA_NUMBER_BUTTON
 import com.petruciostech.conversordemoeda.viewmodel.ConvertFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ConvertFragment : Fragment() {
     private lateinit var bind:FragmentConvertBinding
-    private lateinit var viewModel:ConvertFragmentViewModel
+    private val viewModel:ConvertFragmentViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         bind = FragmentConvertBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider
-            .AndroidViewModelFactory(activity?.application as Application)
-            .create(ConvertFragmentViewModel::class.java)
+        viewModel.getListOfCurrencys()
         initComponent()
         return bind.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(context, "Olá", Toast.LENGTH_LONG).show()
+
+    }
+    
     private fun initComponent(){
-        if(viewModel.isChoiceOne) bind.buttonChoisecurrencyOne.text = viewModel.getCodeChoisedOne()
-        if(viewModel.isChoiceTwo) bind.buttonChoisecurrencyTwo.text = viewModel.getCodeChoisedTwo()
-        bind.buttonChoisecurrencyOne.setOnClickListener { setActivityCurrencys(1) }
-        bind.buttonChoisecurrencyTwo.setOnClickListener { setActivityCurrencys(2) }
+        viewModel.codeOne.observe(viewLifecycleOwner, { codeOne ->
+            bind.buttonChoisecurrencyOne.text = codeOne
+        })
+        viewModel.codeTwo.observe(viewLifecycleOwner, { codeTwo ->
+            bind.buttonChoisecurrencyTwo.text = codeTwo
+        })
+
+        bind.buttonChoisecurrencyOne.setOnClickListener {
+            showDialog()
+            viewModel.choisedButton(1)
+        }
+        bind.buttonChoisecurrencyTwo.setOnClickListener {
+            showDialog()
+            viewModel.choisedButton(2)
+        }
+
     }
 
-    private fun setActivityCurrencys(button:Int){
-        val intent = Intent(activity?.applicationContext, ListCurrencyActivity::class.java)
-        intent.putExtra(INTENT_EXTRA_NUMBER_BUTTON, button)
-        startActivity(intent)
+    private fun showDialog(){
+        viewModel.listCurrency.observe(viewLifecycleOwner, { listCurrency ->
+            val newFrag = ListCurrencyDialog(viewModel.cointolistToCointorecyclerview(listCurrency))
+            newFrag.show(parentFragmentManager, "missiles")
+        })
+
     }
-
-
 
 }

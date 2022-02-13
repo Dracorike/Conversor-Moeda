@@ -13,17 +13,26 @@ import com.petruciostech.conversordemoeda.util.tools.TAG_ERROR_THREAD_PRICE
 import com.petruciostech.conversordemoeda.util.tools.TAG_SUCCESS_THREAD_PRICE
 import com.petruciostech.conversordemoeda.util.tools.TEXT_ERROR_THREAD_PRICE
 import com.petruciostech.conversordemoeda.util.tools.TEXT_SUCCESS_THREAD_PRICE
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainFragmentViewModel:ViewModel() {
-    private val task = RetrofitCurrencyTask()
+@HiltViewModel
+class MainFragmentViewModel @Inject constructor(
+    private val useCase:UseCaseQuoteUSA
+) :ViewModel() {
+    /*private val task = RetrofitCurrencyTask()
     private val dataSource = CurrencyDataSourceImplementation(task)
     private val repository = Repository(dataSource)
-    private val useCase = UseCaseQuoteUSA(repository)
+    private val useCase = UseCaseQuoteUSA(repository)*/
 
     private var _usaPrice = MutableLiveData<Coin>()
     val usaPrice:LiveData<Coin> get() = _usaPrice
 
-    fun getPriceUsa(){
+    fun initViewModel(){
+        getPriceUsa()
+    }
+
+    private fun getPriceUsa(){
         Thread {
             try {
                 _usaPrice.postValue(useCase.invoke())
@@ -36,7 +45,7 @@ class MainFragmentViewModel:ViewModel() {
 
     private fun Float.format(digits:Int) = "%.${digits}f".format(this)
 
-    fun dolarPricePrint(dolar: List<Pair<String, Float>>):String =
-        "RS ${dolar.find { pred -> pred.first ==  "USDBRL"}?.second?.format(2)}"
+    fun dollarPricePrint(dollar: List<Pair<String, Float>>):String =
+        "RS ${dollar.find { pred -> pred.first ==  "USDBRL"}?.second?.format(2)}"
 
 }

@@ -3,17 +3,19 @@ package com.petruciostech.conversordemoeda.implementation
 import android.util.Log
 import com.petruciostech.conversordemoeda.data.CurrencyDataSource
 import com.petruciostech.conversordemoeda.model.Coin
-import com.petruciostech.conversordemoeda.util.retrofit.RetrofitCurrencyTask
 import com.petruciostech.conversordemoeda.util.tools.*
 import com.petruciostech.conversordemoeda.model.CoinToList
+import com.petruciostech.conversordemoeda.util.retrofit.RetrofitCurrencyApi
+import javax.inject.Inject
 
 
-class CurrencyDataSourceImplementation(private val task:RetrofitCurrencyTask):
-CurrencyDataSource{
+class CurrencyDataSourceImplementation @Inject constructor(
+    private val task:RetrofitCurrencyApi
+):CurrencyDataSource{
     override fun getQuoteUSA(): Coin {
         var coinReturn:Coin? = null
         try {
-            val response = task.task().getQuoteUSA().execute()
+            val response = task.getQuoteUSA().execute()
             if (response.isSuccessful){
                 val coin = response.body()
                 coinReturn = coin
@@ -30,7 +32,7 @@ CurrencyDataSource{
     override fun getListCurrencys(): CoinToList {
         var coinReturn:CoinToList? = null
         try {
-            val response = task.task().getListCurrencys().execute()
+            val response = task.getListCurrencys().execute()
             if(response.isSuccessful){
                 coinReturn = response.body()
                 Log.i(TAG_SUCCESS_RESPONSE, TEXT_SUCCESS_RESPONSE)

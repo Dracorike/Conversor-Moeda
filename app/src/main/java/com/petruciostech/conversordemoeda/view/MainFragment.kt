@@ -5,33 +5,33 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.petruciostech.conversordemoeda.databinding.FragmentMainBinding
 import com.petruciostech.conversordemoeda.viewmodel.MainFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
     private lateinit var bind:FragmentMainBinding
-    private lateinit var viewModel:MainFragmentViewModel
+    private val viewModel:MainFragmentViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         bind = FragmentMainBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider
-            .AndroidViewModelFactory(activity?.application!!)
-            .create(MainFragmentViewModel::class.java)
         initFragment()
         initPriceDollar()
         return bind.root
     }
 
     private fun initFragment(){
-        viewModel.getPriceUsa()
+        viewModel.initViewModel()
     }
     private fun initPriceDollar(){
         viewModel.usaPrice.observe(viewLifecycleOwner, {
-            val dolar = it.quotes.toList()
-            bind.textDolarpriceView.text = viewModel.dolarPricePrint(dolar)
+            val dollar = it.quotes.toList()
+            bind.textDolarpriceView.text = viewModel.dollarPricePrint(dollar)
         })
     }
 }
