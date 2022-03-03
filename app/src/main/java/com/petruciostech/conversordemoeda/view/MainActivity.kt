@@ -9,7 +9,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var bind:ActivityMainBinding
+
+    private lateinit var bind: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = ActivityMainBinding.inflate(layoutInflater)
@@ -19,19 +21,19 @@ class MainActivity : AppCompatActivity() {
         initComponents()
     }
 
-    private fun initComponents(){
+    private fun initComponents() {
         bind.navigationNavigationmenuMenu.setOnItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.item_main_fragment -> fragmentReplace(MainFragment())
                 R.id.item_convertcurrence_fragment -> fragmentReplace(ConvertFragment())
             }
             true
         }
     }
-    private fun fragmentReplace(fragment:Fragment){
+
+    private fun fragmentReplace(fragment: Fragment) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(bind.containerFragmentswitherFrame.id, fragment)
         fragmentTransaction.commit()
-
     }
 }

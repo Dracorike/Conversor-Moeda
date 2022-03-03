@@ -13,12 +13,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ConvertFragment : Fragment() {
-    private lateinit var bind:FragmentConvertBinding
-    private val viewModel:ConvertFragmentViewModel by viewModels()
+    private lateinit var bind: FragmentConvertBinding
+    private val viewModel: ConvertFragmentViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         bind = FragmentConvertBinding.inflate(inflater, container, false)
         viewModel.getListOfCurrencys()
         initComponent()
@@ -30,14 +30,14 @@ class ConvertFragment : Fragment() {
         Toast.makeText(context, "Olá", Toast.LENGTH_LONG).show()
 
     }
-    
-    private fun initComponent(){
-        viewModel.codeOne.observe(viewLifecycleOwner, { codeOne ->
+
+    private fun initComponent() {
+        viewModel.codeOne.observe(viewLifecycleOwner) { codeOne ->
             bind.buttonChoisecurrencyOne.text = codeOne
-        })
-        viewModel.codeTwo.observe(viewLifecycleOwner, { codeTwo ->
+        }
+        viewModel.codeTwo.observe(viewLifecycleOwner) { codeTwo ->
             bind.buttonChoisecurrencyTwo.text = codeTwo
-        })
+        }
 
         bind.buttonChoisecurrencyOne.setOnClickListener {
             showDialog()
@@ -47,15 +47,13 @@ class ConvertFragment : Fragment() {
             showDialog()
             viewModel.choisedButton(2)
         }
-
     }
 
-    private fun showDialog(){
-        viewModel.listCurrency.observe(viewLifecycleOwner, { listCurrency ->
+    private fun showDialog() {
+        viewModel.listCurrency.observe(viewLifecycleOwner) { listCurrency ->
             val newFrag = ListCurrencyDialog(viewModel.cointolistToCointorecyclerview(listCurrency))
             newFrag.show(parentFragmentManager, "missiles")
-        })
-
+        }
     }
 
 }
