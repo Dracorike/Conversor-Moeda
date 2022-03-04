@@ -36,6 +36,7 @@ class MainFragmentViewModel @Inject constructor(
         }.start()
     }
 
+    // TODO Move this Extension to a new file, you could use it later
     private fun Float.format(digits: Int) = "%.${digits}f".format(this)
 
     fun dollarPricePrint(dollar: List<Pair<String, Float>>): String =

@@ -2,13 +2,16 @@ package com.petruciostech.conversordemoeda
 
 import com.petruciostech.conversordemoeda.model.CoinToList
 import com.petruciostech.conversordemoeda.model.CoinToRecyclerView
+import com.petruciostech.conversordemoeda.usecase.UseCaseListCurrency
 import com.petruciostech.conversordemoeda.viewmodel.ConvertFragmentViewModel
 import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
 class ConvertFragmentViewModelTest {
-    private val viewModelTest = ConvertFragmentViewModel()
+
+    private val useCase = mockk<UseCaseListCurrency>()
+    private val viewModelTest = ConvertFragmentViewModel(useCase)
 
     @Test
     fun `Testing the function sortListCurrency`(){

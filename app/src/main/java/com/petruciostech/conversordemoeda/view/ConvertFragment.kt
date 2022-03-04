@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.petruciostech.conversordemoeda.R
 import com.petruciostech.conversordemoeda.databinding.FragmentConvertBinding
 import com.petruciostech.conversordemoeda.viewmodel.ConvertFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,8 +28,9 @@ class ConvertFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(context, "Olá", Toast.LENGTH_LONG).show()
 
+        //TODO Try to always use strings.xml to set default texts
+        Toast.makeText(context, getString(R.string.hello), Toast.LENGTH_LONG).show()
     }
 
     private fun initComponent() {
