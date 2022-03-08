@@ -8,6 +8,6 @@ import javax.inject.Inject
 class Repository @Inject constructor(
     private val dataSourceImplementation: CurrencyDataSourceImplementation
 ) {
-    fun getQuoteUSA():Coin = dataSourceImplementation.getQuoteUSA()
-    fun getListCurrencys():CoinToList = dataSourceImplementation.getListCurrencys()
+    fun getQuoteUSA(): Coin = dataSourceImplementation.getQuoteUSA()
+    fun getListCurrencys(): CoinToList = dataSourceImplementation.getListCurrencys()
 }

@@ -7,18 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.petruciostech.conversordemoeda.R
 import com.petruciostech.conversordemoeda.databinding.FragmentConvertBinding
 import com.petruciostech.conversordemoeda.viewmodel.ConvertFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ConvertFragment : Fragment() {
-    private lateinit var bind:FragmentConvertBinding
-    private val viewModel:ConvertFragmentViewModel by viewModels()
+    private lateinit var bind: FragmentConvertBinding
+    private val viewModel: ConvertFragmentViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         bind = FragmentConvertBinding.inflate(inflater, container, false)
         viewModel.getListOfCurrencys()
         initComponent()
@@ -27,17 +28,18 @@ class ConvertFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(context, "Olá", Toast.LENGTH_LONG).show()
 
+        //TODO Try to always use strings.xml to set default texts
+        Toast.makeText(context, getString(R.string.hello), Toast.LENGTH_LONG).show()
     }
-    
-    private fun initComponent(){
-        viewModel.codeOne.observe(viewLifecycleOwner, { codeOne ->
+
+    private fun initComponent() {
+        viewModel.codeOne.observe(viewLifecycleOwner) { codeOne ->
             bind.buttonChoisecurrencyOne.text = codeOne
-        })
-        viewModel.codeTwo.observe(viewLifecycleOwner, { codeTwo ->
+        }
+        viewModel.codeTwo.observe(viewLifecycleOwner) { codeTwo ->
             bind.buttonChoisecurrencyTwo.text = codeTwo
-        })
+        }
 
         bind.buttonChoisecurrencyOne.setOnClickListener {
             showDialog()
@@ -47,15 +49,13 @@ class ConvertFragment : Fragment() {
             showDialog()
             viewModel.choisedButton(2)
         }
-
     }
 
-    private fun showDialog(){
-        viewModel.listCurrency.observe(viewLifecycleOwner, { listCurrency ->
+    private fun showDialog() {
+        viewModel.listCurrency.observe(viewLifecycleOwner) { listCurrency ->
             val newFrag = ListCurrencyDialog(viewModel.cointolistToCointorecyclerview(listCurrency))
             newFrag.show(parentFragmentManager, "missiles")
-        })
-
+        }
     }
 
 }
